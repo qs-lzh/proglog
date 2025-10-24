@@ -48,7 +48,7 @@ func newgrpcServer(config *Config) (*grpcServer, error) {
 }
 
 func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (*grpc.Server, error) {
-	logger := zap.L().Named("serrver")
+	logger := zap.L().Named("server")
 	zapOpts := []grpc_zap.Option{
 		grpc_zap.WithDurationField(
 			func(duration time.Duration) zapcore.Field {
