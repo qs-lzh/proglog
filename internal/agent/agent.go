@@ -110,8 +110,9 @@ func (a *Agent) setupServer() error {
 		return err
 	}
 	go func() {
-		if err := a.server.Serve(listener); err != nil {
-			_ = a.Shutdown()
+		err := a.server.Serve(listener)
+		if err != nil {
+			a.Shutdown()
 		}
 	}()
 	return err
