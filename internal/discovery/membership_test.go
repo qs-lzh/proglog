@@ -13,23 +13,23 @@ import (
 )
 
 func TestMembership(t *testing.T) {
-	m, handler := setupMember(t, nil)
-	m, _ = setupMember(t, m)
-	m, _ = setupMember(t, m)
+	members, handler := setupMember(t, nil)
+	members, _ = setupMember(t, members)
+	members, _ = setupMember(t, members)
 
 	require.Eventually(
 		t,
 		func() bool {
-			return 2 == len(handler.joins) && 3 == len(m[0].Members()) && 0 == len(handler.leaves)
+			return 2 == len(handler.joins) && 3 == len(members[0].Members()) && 0 == len(handler.leaves)
 		},
 		3*time.Second,
 		250*time.Millisecond,
 	)
-	require.NoError(t, m[2].Leave())
+	require.NoError(t, members[2].Leave())
 	require.Eventually(
 		t,
 		func() bool {
-			return 2 == len(handler.joins) && 3 == len(m[0].Members()) && serf.StatusLeft == m[0].Members()[2].Status && 1 == len(handler.leaves)
+			return 2 == len(handler.joins) && 3 == len(members[0].Members()) && serf.StatusLeft == members[0].Members()[2].Status && 1 == len(handler.leaves)
 		},
 		3*time.Second,
 		250*time.Millisecond,
@@ -44,22 +44,22 @@ func setupMember(t *testing.T, members []*Membership) ([]*Membership, *handler) 
 	tags := map[string]string{
 		"rpc_addr": addr,
 	}
-	c := Config{
+	config := Config{
 		NodeName: fmt.Sprintf("%d", id),
 		BindAddr: addr,
 		Tags:     tags,
 	}
-	h := &handler{}
+	handler := &handler{}
 	if len(members) == 0 {
-		h.joins = make(chan map[string]string, 3)
-		h.leaves = make(chan string, 3)
+		handler.joins = make(chan map[string]string, 3)
+		handler.leaves = make(chan string, 3)
 	} else {
-		c.StartJoinAddrs = []string{members[0].BindAddr}
+		config.StartJoinAddrs = []string{members[0].BindAddr}
 	}
-	m, err := New(h, c)
+	member, err := New(handler, config)
 	require.NoError(t, err)
-	members = append(members, m)
-	return members, h
+	members = append(members, member)
+	return members, handler
 }
 
 type handler struct {
