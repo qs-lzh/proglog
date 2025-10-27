@@ -42,7 +42,7 @@ func (r *Replicator) Join(name, addr string) error {
 }
 
 func (r *Replicator) replicate(addr string, leave chan struct{}) {
-	cc, err := grpc.Dial(addr, r.DialOptions...)
+	cc, err := grpc.NewClient(addr, r.DialOptions...)
 	if err != nil {
 		r.logError(err, "failed to dial", addr)
 		return
