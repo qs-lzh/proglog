@@ -167,7 +167,8 @@ func (l *Log) Reader() io.Reader {
 	for i, segment := range l.segments {
 		readers[i] = &originReader{segment.store, 0}
 	}
-	return io.MultiReader(readers...)
+	multiReader := io.MultiReader(readers...)
+	return multiReader
 }
 
 type originReader struct {

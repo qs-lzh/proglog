@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.10
 // 	protoc        v5.29.3
-// source: log.proto
+// source: api/v1/log.proto
 
 package log_v1
 
@@ -25,13 +25,15 @@ type Record struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Value         []byte                 `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
 	Offset        uint64                 `protobuf:"varint,2,opt,name=offset,proto3" json:"offset,omitempty"`
+	Term          uint64                 `protobuf:"varint,3,opt,name=term,proto3" json:"term,omitempty"`
+	Type          uint32                 `protobuf:"varint,4,opt,name=type,proto3" json:"type,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *Record) Reset() {
 	*x = Record{}
-	mi := &file_log_proto_msgTypes[0]
+	mi := &file_api_v1_log_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -43,7 +45,7 @@ func (x *Record) String() string {
 func (*Record) ProtoMessage() {}
 
 func (x *Record) ProtoReflect() protoreflect.Message {
-	mi := &file_log_proto_msgTypes[0]
+	mi := &file_api_v1_log_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -56,7 +58,7 @@ func (x *Record) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Record.ProtoReflect.Descriptor instead.
 func (*Record) Descriptor() ([]byte, []int) {
-	return file_log_proto_rawDescGZIP(), []int{0}
+	return file_api_v1_log_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *Record) GetValue() []byte {
@@ -73,6 +75,20 @@ func (x *Record) GetOffset() uint64 {
 	return 0
 }
 
+func (x *Record) GetTerm() uint64 {
+	if x != nil {
+		return x.Term
+	}
+	return 0
+}
+
+func (x *Record) GetType() uint32 {
+	if x != nil {
+		return x.Type
+	}
+	return 0
+}
+
 type ProduceRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Record        *Record                `protobuf:"bytes,1,opt,name=record,proto3" json:"record,omitempty"`
@@ -82,7 +98,7 @@ type ProduceRequest struct {
 
 func (x *ProduceRequest) Reset() {
 	*x = ProduceRequest{}
-	mi := &file_log_proto_msgTypes[1]
+	mi := &file_api_v1_log_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -94,7 +110,7 @@ func (x *ProduceRequest) String() string {
 func (*ProduceRequest) ProtoMessage() {}
 
 func (x *ProduceRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_log_proto_msgTypes[1]
+	mi := &file_api_v1_log_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -107,7 +123,7 @@ func (x *ProduceRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProduceRequest.ProtoReflect.Descriptor instead.
 func (*ProduceRequest) Descriptor() ([]byte, []int) {
-	return file_log_proto_rawDescGZIP(), []int{1}
+	return file_api_v1_log_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *ProduceRequest) GetRecord() *Record {
@@ -126,7 +142,7 @@ type ProduceResponse struct {
 
 func (x *ProduceResponse) Reset() {
 	*x = ProduceResponse{}
-	mi := &file_log_proto_msgTypes[2]
+	mi := &file_api_v1_log_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +154,7 @@ func (x *ProduceResponse) String() string {
 func (*ProduceResponse) ProtoMessage() {}
 
 func (x *ProduceResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_log_proto_msgTypes[2]
+	mi := &file_api_v1_log_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +167,7 @@ func (x *ProduceResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ProduceResponse.ProtoReflect.Descriptor instead.
 func (*ProduceResponse) Descriptor() ([]byte, []int) {
-	return file_log_proto_rawDescGZIP(), []int{2}
+	return file_api_v1_log_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *ProduceResponse) GetOffset() uint64 {
@@ -170,7 +186,7 @@ type ConsumeRequest struct {
 
 func (x *ConsumeRequest) Reset() {
 	*x = ConsumeRequest{}
-	mi := &file_log_proto_msgTypes[3]
+	mi := &file_api_v1_log_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -182,7 +198,7 @@ func (x *ConsumeRequest) String() string {
 func (*ConsumeRequest) ProtoMessage() {}
 
 func (x *ConsumeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_log_proto_msgTypes[3]
+	mi := &file_api_v1_log_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -195,7 +211,7 @@ func (x *ConsumeRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConsumeRequest.ProtoReflect.Descriptor instead.
 func (*ConsumeRequest) Descriptor() ([]byte, []int) {
-	return file_log_proto_rawDescGZIP(), []int{3}
+	return file_api_v1_log_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *ConsumeRequest) GetOffset() uint64 {
@@ -214,7 +230,7 @@ type ConsumeResponse struct {
 
 func (x *ConsumeResponse) Reset() {
 	*x = ConsumeResponse{}
-	mi := &file_log_proto_msgTypes[4]
+	mi := &file_api_v1_log_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -226,7 +242,7 @@ func (x *ConsumeResponse) String() string {
 func (*ConsumeResponse) ProtoMessage() {}
 
 func (x *ConsumeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_log_proto_msgTypes[4]
+	mi := &file_api_v1_log_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -239,7 +255,7 @@ func (x *ConsumeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use ConsumeResponse.ProtoReflect.Descriptor instead.
 func (*ConsumeResponse) Descriptor() ([]byte, []int) {
-	return file_log_proto_rawDescGZIP(), []int{4}
+	return file_api_v1_log_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *ConsumeResponse) GetRecord() *Record {
@@ -249,14 +265,16 @@ func (x *ConsumeResponse) GetRecord() *Record {
 	return nil
 }
 
-var File_log_proto protoreflect.FileDescriptor
+var File_api_v1_log_proto protoreflect.FileDescriptor
 
-const file_log_proto_rawDesc = "" +
+const file_api_v1_log_proto_rawDesc = "" +
 	"\n" +
-	"\tlog.proto\x12\x06log.v1\"6\n" +
+	"\x10api/v1/log.proto\x12\x06log.v1\"^\n" +
 	"\x06Record\x12\x14\n" +
 	"\x05value\x18\x01 \x01(\fR\x05value\x12\x16\n" +
-	"\x06offset\x18\x02 \x01(\x04R\x06offset\"8\n" +
+	"\x06offset\x18\x02 \x01(\x04R\x06offset\x12\x12\n" +
+	"\x04term\x18\x03 \x01(\x04R\x04term\x12\x12\n" +
+	"\x04type\x18\x04 \x01(\rR\x04type\"8\n" +
 	"\x0eProduceRequest\x12&\n" +
 	"\x06record\x18\x01 \x01(\v2\x0e.log.v1.RecordR\x06record\")\n" +
 	"\x0fProduceResponse\x12\x16\n" +
@@ -272,26 +290,26 @@ const file_log_proto_rawDesc = "" +
 	"\rProduceStream\x12\x16.log.v1.ProduceRequest\x1a\x17.log.v1.ProduceResponse\"\x00(\x010\x01B\x1eZ\x1cgithub.com/qs-lzh/api/log_v1b\x06proto3"
 
 var (
-	file_log_proto_rawDescOnce sync.Once
-	file_log_proto_rawDescData []byte
+	file_api_v1_log_proto_rawDescOnce sync.Once
+	file_api_v1_log_proto_rawDescData []byte
 )
 
-func file_log_proto_rawDescGZIP() []byte {
-	file_log_proto_rawDescOnce.Do(func() {
-		file_log_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_log_proto_rawDesc), len(file_log_proto_rawDesc)))
+func file_api_v1_log_proto_rawDescGZIP() []byte {
+	file_api_v1_log_proto_rawDescOnce.Do(func() {
+		file_api_v1_log_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_api_v1_log_proto_rawDesc), len(file_api_v1_log_proto_rawDesc)))
 	})
-	return file_log_proto_rawDescData
+	return file_api_v1_log_proto_rawDescData
 }
 
-var file_log_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
-var file_log_proto_goTypes = []any{
+var file_api_v1_log_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_api_v1_log_proto_goTypes = []any{
 	(*Record)(nil),          // 0: log.v1.Record
 	(*ProduceRequest)(nil),  // 1: log.v1.ProduceRequest
 	(*ProduceResponse)(nil), // 2: log.v1.ProduceResponse
 	(*ConsumeRequest)(nil),  // 3: log.v1.ConsumeRequest
 	(*ConsumeResponse)(nil), // 4: log.v1.ConsumeResponse
 }
-var file_log_proto_depIdxs = []int32{
+var file_api_v1_log_proto_depIdxs = []int32{
 	0, // 0: log.v1.ProduceRequest.record:type_name -> log.v1.Record
 	0, // 1: log.v1.ConsumeResponse.record:type_name -> log.v1.Record
 	1, // 2: log.v1.Log.Produce:input_type -> log.v1.ProduceRequest
@@ -309,26 +327,26 @@ var file_log_proto_depIdxs = []int32{
 	0, // [0:2] is the sub-list for field type_name
 }
 
-func init() { file_log_proto_init() }
-func file_log_proto_init() {
-	if File_log_proto != nil {
+func init() { file_api_v1_log_proto_init() }
+func file_api_v1_log_proto_init() {
+	if File_api_v1_log_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_log_proto_rawDesc), len(file_log_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_api_v1_log_proto_rawDesc), len(file_api_v1_log_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_log_proto_goTypes,
-		DependencyIndexes: file_log_proto_depIdxs,
-		MessageInfos:      file_log_proto_msgTypes,
+		GoTypes:           file_api_v1_log_proto_goTypes,
+		DependencyIndexes: file_api_v1_log_proto_depIdxs,
+		MessageInfos:      file_api_v1_log_proto_msgTypes,
 	}.Build()
-	File_log_proto = out.File
-	file_log_proto_goTypes = nil
-	file_log_proto_depIdxs = nil
+	File_api_v1_log_proto = out.File
+	file_api_v1_log_proto_goTypes = nil
+	file_api_v1_log_proto_depIdxs = nil
 }
