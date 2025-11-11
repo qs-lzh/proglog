@@ -377,24 +377,33 @@ func (l *logStore) DeleteRange(min, max uint64) error {
 	return l.Truncate(max)
 }
 
+// StreamLayer in Raft is the low-level network abstraction that handles how nodes connect and communicate.
+// It defines how to accept incoming connections (Accept) and dial other nodes (Dial).
+// Raft itself doesn’t care about the transport details — you can implement StreamLayer using TCP, TLS, Unix sockets, or even custom protocols — Raft just uses it to send and receive RPCs.
 var _ raft.StreamLayer = (*StreamLayer)(nil)
 
 type StreamLayer struct {
-	ln              net.Listener
+	listener        net.Listener
 	serverTLSConfig *tls.Config
 	peerTLSConfig   *tls.Config
 }
 
-func NewStreamLayer(ln net.Listener, serverTLSConfig, peerTLSConfig *tls.Config) *StreamLayer {
+func NewStreamLayer(listener net.Listener, serverTLSConfig, peerTLSConfig *tls.Config) *StreamLayer {
 	return &StreamLayer{
-		ln:              ln,
+		listener:        listener,
 		serverTLSConfig: serverTLSConfig,
 		peerTLSConfig:   peerTLSConfig,
 	}
 }
 
+// raft.StreamLayer interface acquires methods
+// Accept Close and Addr which three from raft.StreamLayer.net.Listener and Dial
+// so StreamLayer must implement these methods
+
 const RaftRPC = 1
 
+// establish TCP connection and send an identifier byte
+// if has TLS configuration, update the connection to an encrypted connection
 func (s *StreamLayer) Dial(addr raft.ServerAddress, timeout time.Duration) (net.Conn, error) {
 	dialer := &net.Dialer{Timeout: timeout}
 	var conn, err = dialer.Dial("tcp", string(addr))
@@ -413,7 +422,7 @@ func (s *StreamLayer) Dial(addr raft.ServerAddress, timeout time.Duration) (net.
 }
 
 func (s *StreamLayer) Accept() (net.Conn, error) {
-	conn, err := s.ln.Accept()
+	conn, err := s.listener.Accept()
 	if err != nil {
 		return nil, err
 	}
@@ -432,9 +441,9 @@ func (s *StreamLayer) Accept() (net.Conn, error) {
 }
 
 func (s *StreamLayer) Close() error {
-	return s.ln.Close()
+	return s.listener.Close()
 }
 
 func (s *StreamLayer) Addr() net.Addr {
-	return s.ln.Addr()
+	return s.listener.Addr()
 }

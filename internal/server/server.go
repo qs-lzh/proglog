@@ -57,12 +57,14 @@ func NewGRPCServer(config *Config, grpcOpts ...grpc.ServerOption) (*grpc.Server,
 		),
 	}
 
+	// for observability
 	trace.ApplyConfig(trace.Config{DefaultSampler: trace.AlwaysSample()})
 	err := view.Register(ocgrpc.DefaultServerViews...)
 	if err != nil {
 		return nil, err
 	}
 
+	// these interceptors
 	grpcOpts = append(grpcOpts,
 		grpc.StreamInterceptor(
 			grpc_middleware.ChainStreamServer(

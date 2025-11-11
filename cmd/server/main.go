@@ -1,8 +1,9 @@
 package main
 
 import (
-	"github.com/qs-lzh/proglog/internal/server"
 	"log"
+
+	"github.com/qs-lzh/proglog/internal/server"
 )
 
 func main() {

@@ -18,6 +18,7 @@ func NewHTTPServer(addr string) *http.Server {
 	}
 }
 
+// I can't understand why the author names it as "httpServer"
 type httpServer struct {
 	Log *Log
 }
